@@ -46,4 +46,6 @@ public:
     size_t capacity() const override;
 
     void printCache() const override;
+
+    void printStats() const;
 };

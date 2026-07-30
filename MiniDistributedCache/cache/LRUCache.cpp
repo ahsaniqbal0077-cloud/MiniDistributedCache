@@ -33,8 +33,9 @@ void LRUCache::put(const std::string& key,
         auto last = cacheList.back();
 
         cacheMap.erase(last.key);
-
         cacheList.pop_back();
+
+        stats.evictions++;
     }
 
     cacheList.push_front({ key, value });
@@ -45,25 +46,27 @@ void LRUCache::put(const std::string& key,
 bool LRUCache::get(const std::string& key,
     std::string& value)
 {
+    stats.requests++;
+
     auto it = cacheMap.find(key);
 
-    // Key not found
     if (it == cacheMap.end())
     {
         stats.misses++;
-        stats.requests++;
         return false;
     }
 
-    // Cache hit
     stats.hits++;
-    stats.requests++;
 
-    // Get value
     value = it->second->value;
 
-    // Move node to front (Most Recently Used)
-    cacheList.splice(cacheList.begin(), cacheList, it->second);
+    cacheList.splice(
+        cacheList.begin(),
+        cacheList,
+        it->second
+    );
+
+    cacheMap[key] = cacheList.begin();
 
     return true;
 }
@@ -114,4 +117,17 @@ void LRUCache::printCache() const
     }
 
     std::cout << "-----------------------\n";
+}
+
+void LRUCache::printStats() const
+{
+    std::cout << "\n===== Cache Statistics =====\n";
+
+    std::cout << "Requests  : " << stats.requests << std::endl;
+    std::cout << "Hits      : " << stats.hits << std::endl;
+    std::cout << "Misses    : " << stats.misses << std::endl;
+    std::cout << "Evictions : " << stats.evictions << std::endl;
+    std::cout << "Hit Rate  : " << stats.hitRate() << "%" << std::endl;
+
+    std::cout << "============================\n";
 }
