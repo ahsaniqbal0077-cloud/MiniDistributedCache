@@ -5,13 +5,17 @@
 
 struct Request
 {
-    std::string operation;   // GET or PUT
+    std::string operation;
     std::string key;
     std::string value;
 };
 
 class DataGenerator
 {
+private:
+
+    std::vector<std::string> insertedKeys;
+
 public:
 
     std::string generateKey();
