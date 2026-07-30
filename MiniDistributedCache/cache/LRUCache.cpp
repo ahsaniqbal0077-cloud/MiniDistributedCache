@@ -9,21 +9,25 @@ LRUCache::LRUCache(size_t capacity)
 void LRUCache::put(const std::string& key,
     const std::string& value)
 {
-    // Key already exists
     auto it = cacheMap.find(key);
 
+    // Key already exists
     if (it != cacheMap.end())
     {
-        // Update value
         it->second->value = value;
 
-        // Move node to front (Most Recently Used)
-        cacheList.splice(cacheList.begin(), cacheList, it->second);
+        cacheList.splice(
+            cacheList.begin(),
+            cacheList,
+            it->second
+        );
+
+        cacheMap[key] = cacheList.begin();
 
         return;
     }
 
-    // Cache full?
+    // Cache full
     if (cacheList.size() >= maxCapacity)
     {
         auto last = cacheList.back();
@@ -33,7 +37,6 @@ void LRUCache::put(const std::string& key,
         cacheList.pop_back();
     }
 
-    // Insert new node at front
     cacheList.push_front({ key, value });
 
     cacheMap[key] = cacheList.begin();

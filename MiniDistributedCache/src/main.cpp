@@ -16,19 +16,8 @@ int main()
 
     cache.printCache();
 
-    std::string value;
-
-    if (cache.get("B", value))
-        cache.put("D", "400");
-
-    std::cout << "\nAfter inserting D\n";
+    cache.put("B", "999");
 
     cache.printCache();
-    {
-        std::cout << "\nFound : " << value << std::endl;
-    }
-
-    cache.printCache();
-
     return 0;
 }
