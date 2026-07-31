@@ -1,16 +1,16 @@
 ﻿#include <iostream>
-#include "../benchmark/Benchmark.h"
+#include "../tests/StressTest.h"
 
 int main()
 {
     std::cout << "=====================================\n";
     std::cout << " Mini Distributed Cache System\n";
-    std::cout << " Benchmark Mode\n";
+    std::cout << " Stress Test Mode\n";
     std::cout << "=====================================\n";
 
-    Benchmark benchmark;
+    StressTest test;
 
-    benchmark.run();
+    test.run();
 
     return 0;
 }
