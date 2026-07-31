@@ -1,12 +1,71 @@
-﻿# CMakeList.txt : CMake project for MiniDistributedCache, include source and define
-# project specific logic here.
-#
+﻿# ============================================
+# Mini Distributed Cache
+# CMake Project
+# ============================================
 
-# Add source to this project's executable.
-add_executable (MiniDistributedCache "src/main.cpp"  "include/ICache.h" "include/CacheItem.h" "include/CacheStats.h" "cache/LRUCache.h" "cache/LRUCache.cpp" "simulator/DataGenerator.h" "simulator/DataGenerator.cpp" "manager/CacheManager.h" "manager/CacheManager.cpp")
+# ============================================
+# Executable
+# ============================================
 
-if (CMAKE_VERSION VERSION_GREATER 3.12)
-  set_property(TARGET MiniDistributedCache PROPERTY CXX_STANDARD 20)
+add_executable(MiniDistributedCache
+
+    # ==========================
+    # Main
+    # ==========================
+    src/main.cpp
+
+    # ==========================
+    # Interfaces
+    # ==========================
+    include/ICache.h
+    include/CacheItem.h
+    include/CacheStats.h
+
+    # ==========================
+    # Cache Algorithms
+    # ==========================
+    cache/LRUCache.h
+    cache/LRUCache.cpp
+
+    cache/LFUCache.h
+    cache/LFUCache.cpp
+
+    # cache/FIFOCache.h
+    # cache/FIFOCache.cpp
+
+    # ==========================
+    # Manager
+    # ==========================
+    manager/CacheManager.h
+    manager/CacheManager.cpp
+
+    # ==========================
+    # Simulator
+    # ==========================
+    simulator/DataGenerator.h
+    simulator/DataGenerator.cpp
+
+ )
+
+# ============================================
+# C++ Standard
+# ============================================
+
+if(CMAKE_VERSION VERSION_GREATER 3.12)
+
+    set_property(
+        TARGET MiniDistributedCache
+        PROPERTY CXX_STANDARD 20
+    )
+
 endif()
 
-# TODO: Add tests and install targets if needed.
+# ============================================
+# Future Modules
+# ============================================
+
+# network/
+# cluster/
+# benchmark/
+# dashboard/
+# tests/
