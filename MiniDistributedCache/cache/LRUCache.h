@@ -3,9 +3,11 @@
 #include "../include/ICache.h"
 #include "../include/CacheStats.h"
 
+
 #include <unordered_map>
 #include <list>
 #include <string>
+#include <mutex>
 
 class LRUCache : public ICache
 {
@@ -24,6 +26,8 @@ private:
     std::unordered_map<std::string, std::list<Node>::iterator> cacheMap;
 
     CacheStats stats;
+
+    mutable std::mutex cacheMutex;
 
 public:
 

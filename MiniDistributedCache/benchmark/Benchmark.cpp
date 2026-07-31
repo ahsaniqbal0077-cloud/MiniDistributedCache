@@ -1,4 +1,5 @@
 #include "Benchmark.h"
+#include "WorkloadGenerator.h"
 
 #include <iostream>
 #include <chrono>
@@ -8,14 +9,15 @@ using namespace std::chrono;
 
 void Benchmark::run()
 {
-    std::cout << "\n=====================================\n";
-    std::cout << "       CACHE BENCHMARK\n";
-    std::cout << "=====================================\n";
+    cout << "\n=====================================\n";
+    cout << "       CACHE BENCHMARK\n";
+    cout << "=====================================\n";
+
+    WorkloadGenerator generator;
+    workload = generator.generate(10000);
 
     testLRU();
-
     testLFU();
-
     testFIFO();
 }
 
@@ -24,33 +26,23 @@ void Benchmark::testLRU()
     auto start = high_resolution_clock::now();
 
     LRUCache cache(100);
+    string value;
 
-    std::string value;
-
-    for (int i = 0; i < 10000; i++)
+    for (const auto& op : workload)
     {
-        cache.put(
-            "user" + std::to_string(i % 200),
-            "value" + std::to_string(i)
-        );
-
-        cache.get(
-            "user" + std::to_string(i % 200),
-            value
-        );
+        if (op.operation == "PUT")
+            cache.put(op.key, op.value);
+        else
+            cache.get(op.key, value);
     }
 
     auto end = high_resolution_clock::now();
 
-    auto duration =
-        duration_cast<milliseconds>(end - start);
-
-    std::cout << "\n========== LRU ==========\n";
-
+    cout << "\n========== LRU ==========\n";
     cache.printStats();
 
-    std::cout << "Execution Time : "
-        << duration.count()
+    cout << "Execution Time : "
+        << duration_cast<milliseconds>(end - start).count()
         << " ms\n";
 }
 
@@ -59,33 +51,23 @@ void Benchmark::testLFU()
     auto start = high_resolution_clock::now();
 
     LFUCache cache(100);
+    string value;
 
-    std::string value;
-
-    for (int i = 0; i < 10000; i++)
+    for (const auto& op : workload)
     {
-        cache.put(
-            "user" + std::to_string(i % 200),
-            "value" + std::to_string(i)
-        );
-
-        cache.get(
-            "user" + std::to_string(i % 200),
-            value
-        );
+        if (op.operation == "PUT")
+            cache.put(op.key, op.value);
+        else
+            cache.get(op.key, value);
     }
 
     auto end = high_resolution_clock::now();
 
-    auto duration =
-        duration_cast<milliseconds>(end - start);
-
-    std::cout << "\n========== LFU ==========\n";
-
+    cout << "\n========== LFU ==========\n";
     cache.printStats();
 
-    std::cout << "Execution Time : "
-        << duration.count()
+    cout << "Execution Time : "
+        << duration_cast<milliseconds>(end - start).count()
         << " ms\n";
 }
 
@@ -94,32 +76,22 @@ void Benchmark::testFIFO()
     auto start = high_resolution_clock::now();
 
     FIFOCache cache(100);
+    string value;
 
-    std::string value;
-
-    for (int i = 0; i < 10000; i++)
+    for (const auto& op : workload)
     {
-        cache.put(
-            "user" + std::to_string(i % 200),
-            "value" + std::to_string(i)
-        );
-
-        cache.get(
-            "user" + std::to_string(i % 200),
-            value
-        );
+        if (op.operation == "PUT")
+            cache.put(op.key, op.value);
+        else
+            cache.get(op.key, value);
     }
 
     auto end = high_resolution_clock::now();
 
-    auto duration =
-        duration_cast<milliseconds>(end - start);
-
-    std::cout << "\n========== FIFO ==========\n";
-
+    cout << "\n========== FIFO ==========\n";
     cache.printStats();
 
-    std::cout << "Execution Time : "
-        << duration.count()
+    cout << "Execution Time : "
+        << duration_cast<milliseconds>(end - start).count()
         << " ms\n";
 }

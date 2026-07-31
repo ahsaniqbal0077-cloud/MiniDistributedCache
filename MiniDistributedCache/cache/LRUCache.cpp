@@ -9,6 +9,8 @@ LRUCache::LRUCache(size_t capacity)
 void LRUCache::put(const std::string& key,
     const std::string& value)
 {
+    std::lock_guard<std::mutex> lock(cacheMutex);
+
     auto it = cacheMap.find(key);
 
     // Key already exists
@@ -23,7 +25,6 @@ void LRUCache::put(const std::string& key,
         );
 
         cacheMap[key] = cacheList.begin();
-
         return;
     }
 
@@ -39,13 +40,14 @@ void LRUCache::put(const std::string& key,
     }
 
     cacheList.push_front({ key, value });
-
     cacheMap[key] = cacheList.begin();
 }
 
 bool LRUCache::get(const std::string& key,
     std::string& value)
 {
+    std::lock_guard<std::mutex> lock(cacheMutex);
+
     stats.requests++;
 
     auto it = cacheMap.find(key);
@@ -73,29 +75,36 @@ bool LRUCache::get(const std::string& key,
 
 void LRUCache::remove(const std::string& key)
 {
+    std::lock_guard<std::mutex> lock(cacheMutex);
+
     auto it = cacheMap.find(key);
 
     if (it == cacheMap.end())
         return;
 
     cacheList.erase(it->second);
-
     cacheMap.erase(it);
 }
 
 bool LRUCache::exists(const std::string& key) const
 {
+    std::lock_guard<std::mutex> lock(cacheMutex);
+
     return cacheMap.find(key) != cacheMap.end();
 }
 
 void LRUCache::clear()
 {
+    std::lock_guard<std::mutex> lock(cacheMutex);
+
     cacheList.clear();
     cacheMap.clear();
 }
 
 size_t LRUCache::size() const
 {
+    std::lock_guard<std::mutex> lock(cacheMutex);
+
     return cacheMap.size();
 }
 
@@ -106,6 +115,8 @@ size_t LRUCache::capacity() const
 
 void LRUCache::printCache() const
 {
+    std::lock_guard<std::mutex> lock(cacheMutex);
+
     std::cout << "\n------ LRU Cache ------\n";
 
     for (const auto& item : cacheList)
@@ -121,6 +132,8 @@ void LRUCache::printCache() const
 
 void LRUCache::printStats() const
 {
+    std::lock_guard<std::mutex> lock(cacheMutex);
+
     std::cout << "\n===== Cache Statistics =====\n";
 
     std::cout << "Requests  : " << stats.requests << std::endl;
