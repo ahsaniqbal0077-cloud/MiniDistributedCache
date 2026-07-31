@@ -45,7 +45,7 @@ add_executable(MiniDistributedCache
     simulator/DataGenerator.h
     simulator/DataGenerator.cpp
 
- )
+  "cache/FIFOCache.h" "cache/FIFOCache.cpp")
 
 # ============================================
 # C++ Standard
