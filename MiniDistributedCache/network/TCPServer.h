@@ -22,4 +22,6 @@ private:
     int port;
 
     SOCKET serverSocket;
+
+    sockaddr_in serverAddress;
 };
