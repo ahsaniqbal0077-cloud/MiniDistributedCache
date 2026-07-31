@@ -35,4 +35,10 @@
     # Tests
     tests/StressTest.h
     tests/StressTest.cpp
-)
+
+    network/TCPServer.h
+    network/TCPServer.cpp
+
+    network/TCPClient.h
+    network/TCPClient.cpp
+ "network/TCPServer.cpp" "network/TCPServer.h" "network/TCPClient.cpp" "network/TCPClient.h")
