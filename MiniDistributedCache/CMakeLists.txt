@@ -40,12 +40,19 @@ add_executable(MiniDistributedCache
     manager/CacheManager.cpp
 
     # ==========================
+    # Benchmark
+    # ==========================
+
+    benchmark/Benchmark.h
+    benchmark/Benchmark.cpp
+
+    # ==========================
     # Simulator
     # ==========================
     simulator/DataGenerator.h
     simulator/DataGenerator.cpp
 
-  "cache/FIFOCache.h" "cache/FIFOCache.cpp")
+  "cache/FIFOCache.h" "cache/FIFOCache.cpp" "benchmark/Benchmark.h" "benchmark/Benchmark.cpp")
 
 # ============================================
 # C++ Standard
